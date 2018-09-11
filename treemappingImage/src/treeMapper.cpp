@@ -106,7 +106,7 @@ inline void treeMapper::create(int width, int height, ofImage& image)
 				glm::vec3 _rMean;
 				varianceAndMean(summedTable, summedSqrTable, width, current->left, i, current->bottom, current->top, leftVariance, _lMean);
 				varianceAndMean(summedTable, summedSqrTable, width, i, current->right, current->bottom, current->top, rightVariance, _rMean);
-				float sum = abs(leftVariance+rightVariance);
+				float sum = abs(leftVariance / (i - current->left) + rightVariance / (current->right-i));
 				if (sum < minSum)
 				{
 					index = i;
@@ -149,7 +149,7 @@ inline void treeMapper::create(int width, int height, ofImage& image)
 				glm::vec3 _rMean;
 				varianceAndMean(summedTable, summedSqrTable, width, current->left, current->right, current->bottom, i, leftVariance, _lMean);
 				varianceAndMean(summedTable, summedSqrTable, width, current->left, current->right, i, current->top, rightVariance, _rMean);
-				float sum = abs(leftVariance+rightVariance);
+				float sum = abs(leftVariance/(i-current->bottom)+rightVariance / (current->top-i));
 				if (sum < minSum)
 				{
 					index = i;
