@@ -1,16 +1,21 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxDatGui.h"
 
 class ofApp : public ofBaseApp{
 
-
-
-
+		ofImage image;
+		ofxDatGuiButton* loadButton;
+		ofFbo offscreenBuffer;
+		ofxDatGui* gui;
+		bool isLoaded;
 	public:
 		void setup();
 		void update();
 		void draw();
+		void processImage();
+		void onLoadEvent(ofxDatGuiButtonEvent event);
 
 		void keyPressed(int key);
 		void keyReleased(int key);

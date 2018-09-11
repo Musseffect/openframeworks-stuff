@@ -1,7 +1,54 @@
 #include "ofApp.h"
+#include "treeMapper.h"
+
+void ofApp::onLoadEvent(ofxDatGuiButtonEvent event)
+{
+
+	int screenW = ofGetWindowWidth();
+	int screenH = ofGetWindowHeight();
+	isLoaded = false;
+	ofFileDialogResult dialogResult = ofSystemLoadDialog("Choose image", false, ofFilePath::getUserHomeDir());
+	if (dialogResult.bSuccess)
+	{
+		try
+		{
+			image.load(dialogResult.filePath);
+		}
+		catch (...)
+		{
+			isLoaded = false;
+			MessageBoxA(NULL, "Problem encountered during the processing of loaded image.", "Error", 0);
+			std::cout << "Problem encountered during the processing of loaded image" << std::endl;
+			return;
+		}
+
+		offscreenBuffer.allocate(screenW, screenH, GL_RGBA);
+		processImage();
+		isLoaded = true;
+	}
+
+}
+
+void ofApp::processImage()
+{
+	treeMapper mapper(image.getWidth(), image.getHeight(), image);
+	offscreenBuffer.begin();
+	mapper.draw(offscreenBuffer.getWidth() / float(image.getWidth()),offscreenBuffer.getHeight()/float(image.getHeight()));
+	offscreenBuffer.end();
+}
+
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	gui = new ofxDatGui(100, 100);
+	gui->addHeader(":: Drag ::");
+	gui->addFooter();
+	gui->addFRM();
+	loadButton = gui->addButton("load");
+
+	loadButton->onButtonEvent(this, &ofApp::onLoadEvent);
+
+
 
 }
 
@@ -12,7 +59,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+	if (isLoaded)
+		offscreenBuffer.draw(0,0);
 }
 
 //--------------------------------------------------------------
