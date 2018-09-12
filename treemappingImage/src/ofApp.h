@@ -6,7 +6,17 @@
 class ofApp : public ofBaseApp{
 
 		ofImage image;
+		ofImage difference;
 		ofxDatGuiButton* loadButton;
+		ofxDatGuiButton* reloadButton;
+		ofxDatGuiSlider* minVarianceSlider;
+		ofxDatGuiSlider* maxDepthSlider;
+		ofxDatGuiSlider* minWidthSlider;
+		ofxDatGuiSlider* minHeightSlider;
+		ofxDatGuiSlider* maxRatioSlider;
+		ofxDatGuiDropdown* showDropdown;
+		ofxDatGuiDropdown* objFunctionDropdown;
+		
 		ofFbo offscreenBuffer;
 		ofxDatGui* gui;
 		bool isLoaded;
@@ -16,6 +26,7 @@ class ofApp : public ofBaseApp{
 		void draw();
 		void processImage();
 		void onLoadEvent(ofxDatGuiButtonEvent event);
+		void onReloadEvent(ofxDatGuiButtonEvent event);
 
 		void keyPressed(int key);
 		void keyReleased(int key);
