@@ -4,7 +4,6 @@
 
 void treeMapper::draw(float scaleW, float scaleH,int shiftX,int shiftY)
 {
-
 	std::stack<stackDrawItem*> stack;
 	stack.push(new stackDrawItem{ root ,0,w,0,h });
 	while (!stack.empty())
@@ -13,14 +12,14 @@ void treeMapper::draw(float scaleW, float scaleH,int shiftX,int shiftY)
 		stack.pop();
 		if (current->node->border == -1)
 		{
-			glm::vec3 meanColor = current->node->mean;
-			ofColor color(meanColor.x, meanColor.y, meanColor.z);
+			glm::vec3 averageColor = current->node->average;
+			ofColor color(averageColor.x, averageColor.y, averageColor.z);
 			ofSetColor(color);
 			ofDrawRectangle(current->left*scaleW+shiftX, current->bottom*scaleH+shiftY, (current->right - current->left)*scaleW, (current->top - current->bottom)*scaleH);
 		}
 		else
 		{
-			if (current->node->swap)
+			if (current->node->direction)
 			{
 				stack.push(new stackDrawItem{ current->node->left, current->left,current->node->border,current->bottom,current->top });
 				stack.push(new stackDrawItem{ current->node->right,current->node->border,current->right,current->bottom,current->top });
@@ -33,7 +32,6 @@ void treeMapper::draw(float scaleW, float scaleH,int shiftX,int shiftY)
 		}
 		delete current;
 	}
-
 }
 
 
@@ -73,7 +71,7 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 	root = new kdNode{-1,nullptr,nullptr,glm::vec3(),false};
 	lvec3 _t = summedTable[width*height - 1];
 	float _n = float(width*height);
-	root->mean = glm::vec3(_t.x / _n, _t.y / _n, _t.z / _n);
+	root->average = glm::vec3(_t.x / _n, _t.y / _n, _t.z / _n);
 	//build kd-tree
 	std::stack<stackItem*> buildStack;
 	lvec3 s1 = _t;
@@ -97,102 +95,14 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 			continue;
 		}
 		float conditionVariable = FLT_MAX;
-		if(objFunc==objectiveFunction::maxMeanDifference)
+		if(objFunc==objectiveFunction::maxSumOfValuesDifference)
 			conditionVariable = 0.f;
 		int index = -1;
 		float lv = 0;
 		float rv = 0;
 		glm::vec3 lMean;
 		glm::vec3 rMean;
-#ifdef OldVariant
-		if (current->node->swap)
-		{
-
-			for (int i = current->left + 1; i < current->right; i++)//x
-			{
-				float leftVariance = 0.f;
-				float rightVariance = 0.f;
-
-				glm::vec3 _lMean;
-				glm::vec3 _rMean;
-				varianceAndMean(summedTable, summedSqrTable, width, current->left, i, current->bottom, current->top, leftVariance, _lMean);
-				varianceAndMean(summedTable, summedSqrTable, width, i, current->right, current->bottom, current->top, rightVariance, _rMean);
-				float sum = abs(leftVariance / (i - current->left) + rightVariance / (current->right-i));
-				if (sum < minSum)
-				{
-					index = i;
-					minSum = sum;
-					lv = leftVariance;
-					rv = rightVariance;
-					lMean = _lMean;
-					rMean = _rMean;
-				}
-				//if sum of variances is less than min set index
-			}
-			if (index != -1)
-			{
-				current->node->border = index;
-				current->node->left = new kdNode{ -1,nullptr,nullptr,lMean,current->node->swap };
-				current->node->right = new kdNode{ -1,nullptr,nullptr,rMean,current->node->swap };
-				current->node->left->swap = (current->top - current->bottom)>(index - current->left)?false:true;
-				current->node->right->swap = (current->top - current->bottom) > (current->right - index) ? false : true;
-				if (lv > minVariance && ((current->top - current->bottom > minSizeY) || (index - current->left> minSizeX)))
-				{
-					buildStack.push(new stackItem{ current->node->left,current->left,index,current->bottom,current->top,lv,current->depth+1 });
-				}
-				if (rv > minVariance && ((current->top - current->bottom > minSizeY) || (current->right-index > minSizeX)))
-				{
-					buildStack.push(new stackItem{ current->node->right,index,current->right,current->bottom,current->top,rv,current->depth + 1 });
-				}
-				//if variance of a part equals zero dont push it in stack
-				//if right-left<2 dont push
-
-			}
-		}
-		else
-		{
-			for (int i = current->bottom+1; i < current->top; i++)//y
-			{
-				float leftVariance = 0.f;
-				float rightVariance = 0.f;
-
-				glm::vec3 _lMean;
-				glm::vec3 _rMean;
-				varianceAndMean(summedTable, summedSqrTable, width, current->left, current->right, current->bottom, i, leftVariance, _lMean);
-				varianceAndMean(summedTable, summedSqrTable, width, current->left, current->right, i, current->top, rightVariance, _rMean);
-				float sum = abs(leftVariance/(i-current->bottom)+rightVariance / (current->top-i));
-				if (sum < minSum)
-				{
-					index = i;
-					minSum = sum;
-					lv = leftVariance;
-					rv = rightVariance;
-					lMean = _lMean;
-					rMean = _rMean;
-				}
-				//if sum of variances is less than min set index
-			}
-			if (index != -1)
-			{
-				current->node->border = index;
-				current->node->left = new kdNode{ -1,nullptr,nullptr,lMean };
-				current->node->right = new kdNode{ -1,nullptr,nullptr,rMean };
-				current->node->left->swap = (index - current->bottom) > (current->right - current->left) ? false : true;
-				current->node->right->swap = (current->top - index) > (current->right - current->left) ? false : true;
-				if (lv > minVariance && ((current->right - current->left > minSizeX) || (index - current->bottom > minSizeY)))
-				{
-					buildStack.push(new stackItem{ current->node->left,current->left,current->right,current->bottom,index,lv,current->depth + 1 });
-				}
-				if (rv > minVariance && ((current->right - current->left > minSizeX) || (current->top - index > minSizeY)))
-				{
-					buildStack.push(new stackItem{ current->node->right,current->left,current->right,index,current->top,rv,current->depth + 1 });
-				}
-				//if variance of a part equals zero dont push it in stack
-				//if right-left<2 dont push
-			}
-		}
-#else
-		bool swap = true;// vertical(false) - horizontal(true) line
+		bool direction = true;// vertical(false) - horizontal(true) line
 		if (current->right - current->left > 2*minSizeX)//min width property
 		{
 			for (int i = current->left + minSizeX; i+minSizeX <= current->right; i++)//x
@@ -214,11 +124,14 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 						condition = (conditionVariable> (expressionResult = max(leftVariance,rightVariance)));
 						break;
 					case minSum:
-						condition = (conditionVariable > 
-							(expressionResult = (leftVariance / lSquare + rightVariance / rSquare)));
+						condition = (conditionVariable > (expressionResult = (leftVariance + rightVariance)));
 						break;
 					case minProportionalSum:
-						condition = (conditionVariable > (expressionResult = (leftVariance + rightVariance)));
+						condition = (conditionVariable > (expressionResult = (leftVariance*lSquare + rightVariance*rSquare)));
+						break;
+					case minProportionalSum2:
+						condition = (conditionVariable >
+							(expressionResult = (leftVariance / lSquare + rightVariance / rSquare)));
 						break;
 					case minMult:
 						condition = (conditionVariable > (expressionResult = (leftVariance * rightVariance)));
@@ -227,8 +140,11 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 						condition = (conditionVariable > 
 							(expressionResult = (leftVariance / lSquare * rightVariance / rSquare)));
 						break;
-					case maxMeanDifference:
-						condition = (conditionVariable< (expressionResult = abs(glm::distance(_lMean,_rMean))));
+					case maxSumOfValuesDifference:
+						condition = (conditionVariable< (expressionResult = abs(glm::distance(_lMean*lSquare,_rMean*rSquare))));
+						break;
+					case minSumOfValuesDifference:
+						condition = (conditionVariable > (expressionResult = abs(glm::distance(_lMean*lSquare, _rMean*rSquare))));
 						break;
 					default:
 						break;
@@ -237,7 +153,7 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 				{
 					index = i;
 					conditionVariable = expressionResult;
-					swap = true;
+					direction = true;
 					lv = leftVariance;
 					rv = rightVariance;
 					lMean = _lMean;
@@ -266,11 +182,14 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 					condition = (conditionVariable > (expressionResult = max(leftVariance, rightVariance)));
 					break;
 				case minSum:
-					condition = (conditionVariable >
-						(expressionResult = (leftVariance / lSquare + rightVariance / rSquare)));
+					condition = (conditionVariable > (expressionResult = (leftVariance + rightVariance)));
 					break;
 				case minProportionalSum:
-					condition = (conditionVariable > (expressionResult = (leftVariance + rightVariance)));
+					condition = (conditionVariable > (expressionResult = (leftVariance*lSquare + rightVariance * rSquare)));
+					break;
+				case minProportionalSum2:
+					condition = (conditionVariable >
+						(expressionResult = (leftVariance / lSquare + rightVariance / rSquare)));
 					break;
 				case minMult:
 					condition = (conditionVariable > (expressionResult = (leftVariance * rightVariance)));
@@ -279,8 +198,11 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 					condition = (conditionVariable >
 						(expressionResult = (leftVariance / lSquare * rightVariance / rSquare)));
 					break;
-				case maxMeanDifference:
-					condition = (conditionVariable < (expressionResult = abs(glm::distance(_lMean, _rMean))));
+				case maxSumOfValuesDifference:
+					condition = (conditionVariable < (expressionResult = abs(glm::distance(_lMean*lSquare, _rMean*rSquare))));
+					break;
+				case minSumOfValuesDifference:
+					condition = (conditionVariable > (expressionResult = abs(glm::distance(_lMean*lSquare, _rMean*rSquare))));
 					break;
 				default:
 					break;
@@ -289,7 +211,7 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 				{
 					index = i;
 					conditionVariable = expressionResult;
-					swap = false;
+					direction = false;
 					lv = leftVariance;
 					rv = rightVariance;
 					lMean = _lMean;
@@ -300,12 +222,12 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 		}
 		if (index != -1)//if optimal division was found
 		{
-			current->node->swap = swap;
+			current->node->direction = direction;
 			current->node->border = index;
-			current->node->left = new kdNode{ -1,nullptr,nullptr,lMean,current->node->swap };
-			current->node->right = new kdNode{ -1,nullptr,nullptr,rMean,current->node->swap };
+			current->node->left = new kdNode{ -1,nullptr,nullptr,lMean,current->node->direction };
+			current->node->right = new kdNode{ -1,nullptr,nullptr,rMean,current->node->direction };
 			nodes+=2;
-			if (swap)
+			if (direction)
 			{
 				if (lv > minVariance&& lv/current->variance<maxRatio)
 				{
@@ -330,7 +252,6 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 			//if variance of a part equals zero dont push it in stack
 			//if right-left<2 dont push
 		}
-#endif
 		delete current;
 		//for each node
 		//find splitting that creates minimum difference between variances
@@ -371,7 +292,7 @@ treeMapper::treeMapper(int width, int height, ofImage& image, float minVariance,
 	create(width, height, image,minVariance, maxDepth, minSizeX, minSizeY,maxRatio,objFunc);
 }
 
-inline void treeMapper::varianceAndMean(lvec3 * sT, lvec3 * sST, int width, int l, int r, int b, int t, float & variance, glm::vec3& mean)
+inline void treeMapper::varianceAndMean(lvec3 * sT, lvec3 * sST, int width, int l, int r, int b, int t, float & variance, glm::vec3& average)
 {
 	lvec3 sum = sT[(t - 1)*width + r-1];
 	lvec3 sqrSum = sST[(t - 1)*width + r-1];
@@ -393,13 +314,12 @@ inline void treeMapper::varianceAndMean(lvec3 * sT, lvec3 * sST, int width, int 
 
 	//calc variance
 	float n = float((r - l)*(t - b));
-	//build kd-tree
 	glm::vec3 variance3(double(sqrSum.x/n) - pow(double(sum.x / n),2.0),
 		double(sqrSum.y / n) - pow(double(sum.y / n), 2.0),
 		double(sqrSum.z / n) - pow(double(sum.z / n), 2.0)
 	);
 	variance = (abs(variance3.x)+ abs(variance3.y)+ abs(variance3.z))/3.f;//variance from [left,i)
-	mean = glm::vec3(sum.x / n, sum.y / n, sum.z / n);
+	average = glm::vec3(sum.x / n, sum.y / n, sum.z / n);
 
 }
 

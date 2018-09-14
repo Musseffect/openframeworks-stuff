@@ -78,20 +78,27 @@ void ofApp::setup(){
 	reloadButton = gui->addButton("reload");
 	showDropdown = gui->addDropdown("show", std::vector<std::string>({"result","original","difference"}));
 	showDropdown->select(0);
-	objFunctionDropdown = gui->addDropdown("objective function", std::vector<std::string>({"minMax","minSum","minProportionalSum","minMult","minProportinalMult","maxMeanDifference"}));
+	objFunctionDropdown = gui->addDropdown("objective function", std::vector<std::string>({
+		"minProportionalSum",
+		"minSumOfValuesDifference"
+		"maxSumOfValuesDifference",
+		"minProportionalSum2",
+		"minMult",
+		"minProportinalMult","minMax",
+		"minSum"}));
 	objFunctionDropdown->select(0);
 	loadButton->onButtonEvent(this, &ofApp::onLoadEvent);
 	reloadButton->onButtonEvent(this,&ofApp::onReloadEvent);
 	reloadButton->setEnabled(false);
 
-	minVarianceSlider = gui->addSlider("min variance",0.f,10000.f,500.f);
+	minVarianceSlider = gui->addSlider("min variance",0.f, 65025.f,500.f);
 	maxDepthSlider = gui->addSlider("max tree depth", 0.f, 100.f, 12.f);
 	maxDepthSlider->setPrecision(0);
 	minWidthSlider = gui->addSlider("min width", 1.f, 500.f, 14.f);
 	minWidthSlider->setPrecision(0);
 	minHeightSlider = gui->addSlider("min height", 1.f, 500.f, 14.f);
 	minHeightSlider->setPrecision(0);
-	maxRatioSlider = gui->addSlider("max ratio", 0.f, 10.f, 1.f);
+	maxRatioSlider = gui->addSlider("max ratio", 0.f, 10.f, 10.f);
 
 
 }

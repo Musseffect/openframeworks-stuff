@@ -13,14 +13,23 @@ struct kdNode
 	int border;
 	kdNode *left;
 	kdNode *right;
-	glm::vec3 mean;
-	bool swap;
+	glm::vec3 average;
+	bool direction;
 };
 
 
 class treeMapper
 {
-	enum objectiveFunction{minMax=0,minSum=1,minProportionalSum=2,minMult=3,minProportinalMult=4,maxMeanDifference=5};
+	enum objectiveFunction{
+		minProportionalSum=0,
+		maxSumOfValuesDifference = 1,
+		minSumOfValuesDifference = 2,
+		minProportionalSum2 = 3,
+		minMult = 4,
+		minProportinalMult = 5,
+		minMax=6,
+		minSum=7
+	};
 
 	kdNode*root;
 	int w;
@@ -36,16 +45,15 @@ class treeMapper
 	///</summary>
 	void destroy();
 	treeMapper(const treeMapper& r);
+	///<summary>
+	///Calculate variance and average for given rectangle
+	///</summary>
+	static void varianceAndMean(lvec3 *sT, lvec3 *sST, int width, int l, int r, int b, int t, float & variance, glm::vec3& average);
 public:
 	treeMapper(int width, int height, ofImage& image,float minVariance,  int maxDepth, int minSizeX, int minSizeY,float maxRatio,int objFunc);
 	///<summary>
-	///Calculate variance and mean for given rectangle
-	///</summary>
-	static void varianceAndMean(lvec3 *sT, lvec3 *sST, int width, int l, int r, int b, int t, float & variance, glm::vec3& mean);
-	
-	///<summary>
-	///Recursivly find leaf reactangle nodes, calculate coordinates for sides and draw with mean color
+	///Recursivly find leaf reactangle nodes, calculate coordinates for sides and draw with average color
 	///</summary>
 	void draw(float scaleW, float scaleH,int shiftX,int shiftY);
 	~treeMapper();
-};
+}; 
