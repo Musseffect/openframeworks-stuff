@@ -10,10 +10,11 @@ typedef glm::tvec3<long long> lvec3;
 
 struct kdNode
 {
+	glm::vec3 average;
 	int border;
 	kdNode *left;
 	kdNode *right;
-	glm::vec3 average;
+	int depth;
 	bool direction;
 };
 
@@ -34,6 +35,7 @@ class treeMapper
 	kdNode*root;
 	int w;
 	int h;
+	int maxDepth;
 	struct stackItem { kdNode* node; int left; int right; int bottom; int top; float variance; int depth; };
 	struct stackDrawItem { kdNode* node; int left; int right;  int bottom; int top; };
 	///<summary>
@@ -55,5 +57,9 @@ public:
 	///Recursivly find leaf reactangle nodes, calculate coordinates for sides and draw with average color
 	///</summary>
 	void draw(float scaleW, float scaleH,int shiftX,int shiftY);
+	///<summary>
+	///Draw rectangle nodes with color, representing node's depth
+	///</summary>
+	void drawDepth(float scaleW, float scaleH, int shiftX, int shiftY);
 	~treeMapper();
 }; 

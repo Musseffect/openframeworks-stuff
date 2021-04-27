@@ -34,8 +34,39 @@ void treeMapper::draw(float scaleW, float scaleH,int shiftX,int shiftY)
 	}
 }
 
+void treeMapper::drawDepth(float scaleW, float scaleH, int shiftX, int shiftY)
+{
+	std::stack<stackDrawItem*> stack;
+	stack.push(new stackDrawItem{ root ,0,w,0,h });
+	while (!stack.empty())
+	{
+		stackDrawItem* current = stack.top();
+		stack.pop();
+		if (current->node->border == -1)
+		{
+			float fColor = ((float)current->node->depth/maxDepth);
+			ofColor color(fColor*255.0,255);
+			ofSetColor(color);
+			ofDrawRectangle(current->left*scaleW + shiftX, current->bottom*scaleH + shiftY, (current->right - current->left)*scaleW, (current->top - current->bottom)*scaleH);
+		}
+		else
+		{
+			if (current->node->direction)
+			{
+				stack.push(new stackDrawItem{ current->node->left, current->left,current->node->border,current->bottom,current->top });
+				stack.push(new stackDrawItem{ current->node->right,current->node->border,current->right,current->bottom,current->top });
+			}
+			else
+			{
+				stack.push(new stackDrawItem{ current->node->left, current->left,current->right,current->bottom,current->node->border });
+				stack.push(new stackDrawItem{ current->node->right,current->left,current->right,current->node->border,current->top });
+			}
+		}
+		delete current;
+	}
+}
 
-inline void treeMapper::create(int width, int height, ofImage& image, float minVariance, int maxDepth, int minSizeX, int minSizeY,float maxRatio,int objFunc)
+inline void treeMapper::create(int width, int height, ofImage& image, float minVariance, int tMaxDepth, int minSizeX, int minSizeY,float maxRatio,int objFunc)
 {
 	//minVariance *= 65025.f;
 	//build summation area tables for values and values^2
@@ -68,7 +99,8 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 			summedSqrTable[i + index] = valuesqr;
 		}
 	}
-	root = new kdNode{-1,nullptr,nullptr,glm::vec3(),false};
+	maxDepth = 0;
+	root = new kdNode{ glm::vec3(),-1,nullptr,nullptr,0,false};
 	lvec3 _t = summedTable[width*height - 1];
 	float _n = float(width*height);
 	root->average = glm::vec3(_t.x / _n, _t.y / _n, _t.z / _n);
@@ -89,7 +121,7 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 	{
 		stackItem* current = buildStack.top();
 		buildStack.pop();
-		if (current->depth > maxDepth)
+		if (current->depth > tMaxDepth)
 		{
 			delete current;
 			continue;
@@ -224,8 +256,9 @@ inline void treeMapper::create(int width, int height, ofImage& image, float minV
 		{
 			current->node->direction = direction;
 			current->node->border = index;
-			current->node->left = new kdNode{ -1,nullptr,nullptr,lMean,current->node->direction };
-			current->node->right = new kdNode{ -1,nullptr,nullptr,rMean,current->node->direction };
+			maxDepth = max(maxDepth,current->depth+1);
+			current->node->left = new kdNode{ lMean,-1,nullptr,nullptr,current->depth+1,current->node->direction };
+			current->node->right = new kdNode{ rMean,-1,nullptr,nullptr,current->depth+1,current->node->direction };
 			nodes+=2;
 			if (direction)
 			{

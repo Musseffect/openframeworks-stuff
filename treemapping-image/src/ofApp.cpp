@@ -8,18 +8,13 @@ void ofApp::onLoadEvent(ofxDatGuiButtonEvent event)
 	ofFileDialogResult dialogResult = ofSystemLoadDialog("Choose image", false, ofFilePath::getUserHomeDir());
 	if (dialogResult.bSuccess)
 	{
-		try
-		{
-			image.load(dialogResult.filePath);
-		}
-		catch (...)
+		if (!image.load(dialogResult.filePath))
 		{
 			isLoaded = false;
 			MessageBoxA(NULL, "Problem encountered during the processing of loaded image.", "Error", 0);
 			std::cout << "Problem encountered during the processing of loaded image" << std::endl;
 			return;
 		}
-
 		processImage();
 		isLoaded = true;
 		reloadButton->setEnabled(true);
@@ -46,12 +41,17 @@ void ofApp::processImage()
 	treeMapper mapper(width,height, image, float(minVarianceSlider->getValue()),
 		maxDepthSlider->getValue(),minWidthSlider->getValue(),minHeightSlider->getValue(),maxRatioSlider->getValue(),
 		objFunctionDropdown->getSelected()->getIndex());
-	offscreenBuffer.begin(); 
+	offscreenBuffer.begin();
 	mapper.draw(1.f,1.f,0.f,0.f);
 
 	offscreenBuffer.end();
+	depth.allocate(width, height, GL_RGBA);
+	depth.begin();
+	mapper.drawDepth(1.f, 1.f, 0.f, 0.f);
+
+	depth.end();
 	ofPixels pixels;
-	pixels.allocate(width, height, GL_RGBA);
+	pixels.allocate(width, height, ofImageType::OF_IMAGE_GRAYSCALE);
 	difference.allocate(width, height, ofImageType::OF_IMAGE_GRAYSCALE);
 	offscreenBuffer.readToPixels(pixels);
 	for (int j = 0; j < height; j++)
@@ -76,11 +76,11 @@ void ofApp::setup(){
 	gui->addFRM();
 	loadButton = gui->addButton("load");
 	reloadButton = gui->addButton("reload");
-	showDropdown = gui->addDropdown("show", std::vector<std::string>({"result","original","difference"}));
+	showDropdown = gui->addDropdown("show", std::vector<std::string>({"result","original","difference","depth"}));
 	showDropdown->select(0);
 	objFunctionDropdown = gui->addDropdown("objective function", std::vector<std::string>({
 		"minProportionalSum",
-		"minSumOfValuesDifference"
+		"minSumOfValuesDifference",
 		"maxSumOfValuesDifference",
 		"minProportionalSum2",
 		"minMult",
@@ -100,7 +100,7 @@ void ofApp::setup(){
 	minHeightSlider->setPrecision(0);
 	maxRatioSlider = gui->addSlider("max ratio", 0.f, 10.f, 10.f);
 
-
+	std::cout << "Press h to toggle gui, s to save offscreenBuffer, d to save screenshot of the window\n";
 }
 
 //--------------------------------------------------------------
@@ -141,7 +141,7 @@ void ofApp::draw(){
 		switch (state)
 		{
 			case 0:
-			{	
+			{
 				offscreenBuffer.draw(correctXPos, correctYPos, correctWidth, correctHeight);
 				break;
 			}
@@ -153,6 +153,11 @@ void ofApp::draw(){
 			case 2:
 			{
 				difference.draw(correctXPos, correctYPos, correctWidth, correctHeight);
+				break;
+			}
+			case 3:
+			{
+				depth.draw(correctXPos, correctYPos, correctWidth, correctHeight);
 				break;
 			}
 		}
@@ -227,6 +232,6 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }

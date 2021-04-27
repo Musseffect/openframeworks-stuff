@@ -18,6 +18,7 @@ class ofApp : public ofBaseApp{
 		ofxDatGuiDropdown* objFunctionDropdown;
 		
 		ofFbo offscreenBuffer;
+		ofFbo depth;
 		ofxDatGui* gui;
 		bool isLoaded;
 	public:

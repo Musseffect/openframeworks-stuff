@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FD42DF7-442E-479A-BA76-D0022F99702A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>treemappingImage</RootNamespace>
+    <RootNamespace>treemapping-image</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -148,13 +148,7 @@ E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatG
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\components;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\core;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs\ofxSmartFont;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OF_ROOT)addons\ofxDatGui\src;$(OF_ROOT)addons\ofxDatGui\src\components;$(OF_ROOT)addons\ofxDatGui\src\core;$(OF_ROOT)addons\ofxDatGui\src\libs;$(OF_ROOT)addons\ofxDatGui\src\libs\ofxSmartFont;$(OF_ROOT)addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -200,35 +194,35 @@ E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatG
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\addons\ofxDatGui\src\core\ofxDatGuiComponent.cpp" />
-    <ClCompile Include="..\..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.cpp" />
-    <ClCompile Include="..\..\..\..\addons\ofxDatGui\src\ofxDatGui.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxDatGui\src\core\ofxDatGuiComponent.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxDatGui\src\ofxDatGui.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\treeMapper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGui2dPad.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiButton.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiColorPicker.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiControls.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiFRM.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiGroups.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiLabel.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiMatrix.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiScrollView.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiSlider.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiTextInput.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiTextInputField.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\components\ofxDatGuiTimeGraph.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\core\ofxDatGuiComponent.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\core\ofxDatGuiConstants.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\core\ofxDatGuiEvents.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\core\ofxDatGuiIntObject.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\ofxDatGui.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\themes\ofxDatGuiTheme.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxDatGui\src\themes\ofxDatGuiThemes.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGui2dPad.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiButton.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiColorPicker.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiControls.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiFRM.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiGroups.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiLabel.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiMatrix.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiScrollView.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiSlider.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiTextInput.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiTextInputField.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\components\ofxDatGuiTimeGraph.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\core\ofxDatGuiComponent.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\core\ofxDatGuiConstants.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\core\ofxDatGuiEvents.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\core\ofxDatGuiIntObject.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\ofxDatGui.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\themes\ofxDatGuiTheme.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxDatGui\src\themes\ofxDatGuiThemes.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\treeMapper.h" />
   </ItemGroup>
