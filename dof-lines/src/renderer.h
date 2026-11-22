@@ -23,15 +23,15 @@ private:
 	}
 	float dofThinLens(float d, float f)
 	{
-		return smoothAbs(d-f)/(2.0f*f*d);
+		return smoothAbs(d - f) / (2.0f*f*d);
 	}
 	float dofPow(float d, float f)
 	{
-		return pow(smoothAbs(d-f),power);
+		return pow(smoothAbs(d - f), power);
 	}
 	float dofPowThinLens(float d, float f)
 	{
-		return pow(smoothAbs(d - f), power)/(2.0f*f*d);
+		return pow(smoothAbs(d - f), power) / (2.0f*f*d);
 	}
 	float power;
 	ofVec3f focusCenter;

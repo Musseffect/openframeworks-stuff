@@ -22,7 +22,7 @@ public:
 	virtual ofVec3f project(ofVec3f lp) = 0;
 };
 
-class PerspectiveCamera:public Camera
+class PerspectiveCamera :public Camera
 {
 	float fov;
 public:
@@ -30,7 +30,7 @@ public:
 	virtual ofVec3f project(ofVec3f lp) override;
 };
 
-class FisheyeCamera:public Camera
+class FisheyeCamera :public Camera
 {
 	float fov;
 public:

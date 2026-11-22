@@ -38,11 +38,13 @@ void ofApp::processImage()
 	int width = image.getWidth();
 	int height = image.getHeight();
 	offscreenBuffer.allocate(width, height, GL_RGBA);
-	treeMapper mapper(width,height, image, float(minVarianceSlider->getValue()),
-		maxDepthSlider->getValue(),minWidthSlider->getValue(),minHeightSlider->getValue(),maxRatioSlider->getValue(),
-		objFunctionDropdown->getSelected()->getIndex());
+	/*treeMapper mapper(width, height, image, float(minVarianceSlider->getValue()),
+		maxDepthSlider->getValue(), minWidthSlider->getValue(), minHeightSlider->getValue(), maxRatioSlider->getValue(),
+		objFunctionDropdown->getSelected()->getIndex());*/
+	edgeDetectionMapper mapper(width, height, image, minVarianceSlider->getValue(),
+		maxDepthSlider->getValue(), minWidthSlider->getValue(), minHeightSlider->getValue());
 	offscreenBuffer.begin();
-	mapper.draw(1.f,1.f,0.f,0.f);
+	mapper.draw();
 
 	offscreenBuffer.end();
 	depth.allocate(width, height, GL_RGBA);
@@ -57,26 +59,26 @@ void ofApp::processImage()
 	for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++)
 		{
-			ofColor pixel=pixels.getColor(i,j);
-			ofColor imagePixel = image.getColor(i,j);
-			glm::vec3 diff=(glm::vec3(pixel.r,pixel.g,pixel.b)-glm::vec3(imagePixel.r,imagePixel.g,imagePixel.b));
+			ofColor pixel = pixels.getColor(i, j);
+			ofColor imagePixel = image.getColor(i, j);
+			fvec3 diff = (fvec3(pixel.r, pixel.g, pixel.b) - fvec3(imagePixel.r, imagePixel.g, imagePixel.b));
 			ofColor color;
-			color.set((abs(diff.x)+abs(diff.y)+abs(diff.z))/3.f,255.f);
-			difference.setColor(i, j , color);
+			color.set((abs(diff.x) + abs(diff.y) + abs(diff.z)) / 3.f, 255.f);
+			difference.setColor(i, j, color);
 		}
 	difference.update();
 }
 
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	gui = new ofxDatGui(100, 100);
 	gui->addHeader(":: Drag ::");
 	gui->addFooter();
 	gui->addFRM();
 	loadButton = gui->addButton("load");
 	reloadButton = gui->addButton("reload");
-	showDropdown = gui->addDropdown("show", std::vector<std::string>({"result","original","difference","depth"}));
+	showDropdown = gui->addDropdown("show", std::vector<std::string>({ "result","original","difference","depth" }));
 	showDropdown->select(0);
 	objFunctionDropdown = gui->addDropdown("objective function", std::vector<std::string>({
 		"minProportionalSum",
@@ -85,18 +87,19 @@ void ofApp::setup(){
 		"minProportionalSum2",
 		"minMult",
 		"minProportinalMult","minMax",
-		"minSum"}));
+		"minSum" }));
 	objFunctionDropdown->select(0);
 	loadButton->onButtonEvent(this, &ofApp::onLoadEvent);
-	reloadButton->onButtonEvent(this,&ofApp::onReloadEvent);
+	reloadButton->onButtonEvent(this, &ofApp::onReloadEvent);
 	reloadButton->setEnabled(false);
 
-	minVarianceSlider = gui->addSlider("min variance",0.f, 65025.f,500.f);
+	minVarianceSlider = gui->addSlider("min variance", 0.f, 1.0f, 0.5f);
+	minVarianceSlider->setPrecision(2);
 	maxDepthSlider = gui->addSlider("max tree depth", 0.f, 100.f, 12.f);
 	maxDepthSlider->setPrecision(0);
-	minWidthSlider = gui->addSlider("min width", 1.f, 500.f, 14.f);
+	minWidthSlider = gui->addSlider("min width", 1.f, 40.f, 14.f);
 	minWidthSlider->setPrecision(0);
-	minHeightSlider = gui->addSlider("min height", 1.f, 500.f, 14.f);
+	minHeightSlider = gui->addSlider("min height", 1.f, 40.f, 14.f);
 	minHeightSlider->setPrecision(0);
 	maxRatioSlider = gui->addSlider("max ratio", 0.f, 10.f, 10.f);
 
@@ -104,15 +107,15 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	if (isLoaded)
 	{
-		ofxDatGuiDropdownOption*option = showDropdown->getSelected();
+		ofxDatGuiDropdownOption* option = showDropdown->getSelected();
 		int state = option->getIndex();
 		int screenW = ofGetWindowWidth();
 		int screenH = ofGetWindowHeight();
@@ -140,33 +143,33 @@ void ofApp::draw(){
 		}
 		switch (state)
 		{
-			case 0:
-			{
-				offscreenBuffer.draw(correctXPos, correctYPos, correctWidth, correctHeight);
-				break;
-			}
-			case 1:
-			{
-				image.draw(correctXPos, correctYPos, correctWidth, correctHeight);
-				break;
-			}
-			case 2:
-			{
-				difference.draw(correctXPos, correctYPos, correctWidth, correctHeight);
-				break;
-			}
-			case 3:
-			{
-				depth.draw(correctXPos, correctYPos, correctWidth, correctHeight);
-				break;
-			}
+		case 0:
+		{
+			offscreenBuffer.draw(correctXPos, correctYPos, correctWidth, correctHeight);
+			break;
+		}
+		case 1:
+		{
+			image.draw(correctXPos, correctYPos, correctWidth, correctHeight);
+			break;
+		}
+		case 2:
+		{
+			difference.draw(correctXPos, correctYPos, correctWidth, correctHeight);
+			break;
+		}
+		case 3:
+		{
+			depth.draw(correctXPos, correctYPos, correctWidth, correctHeight);
+			break;
+		}
 		}
 	}
 	gui->draw();
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
 	if (key == 'h')//hide gui
 	{
 		gui->setVisible(!gui->getVisible());
@@ -174,64 +177,64 @@ void ofApp::keyPressed(int key){
 	if (key == 's')//save offscreenBuffer
 	{
 		ofPixels pixels;
-		pixels.allocate(int(offscreenBuffer.getWidth()),int(offscreenBuffer.getHeight()), GL_RGBA);
+		pixels.allocate(int(offscreenBuffer.getWidth()), int(offscreenBuffer.getHeight()), GL_RGBA);
 		offscreenBuffer.readToPixels(pixels);
-		ofSaveImage(pixels, "screenshots/" + ofGetTimestampString() + "screenshot.png",OF_IMAGE_QUALITY_BEST);
+		ofSaveImage(pixels, "screenshots/" + ofGetTimestampString() + "screenshot.png", OF_IMAGE_QUALITY_BEST);
 	}
 	if (key == 'd')//save screen
 	{
 		ofImage screenshot;
 		screenshot.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
-		screenshot.save(boost::filesystem::path("screenshots/"+ofGetTimestampString() + "screenshot.png"),ofImageQualityType::OF_IMAGE_QUALITY_BEST);
+		screenshot.save(boost::filesystem::path("screenshots/" + ofGetTimestampString() + "screenshot.png"), ofImageQualityType::OF_IMAGE_QUALITY_BEST);
 	}
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
+void ofApp::mouseEntered(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
+void ofApp::mouseExited(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::gotMessage(ofMessage msg) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
+void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 }

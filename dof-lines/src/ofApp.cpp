@@ -4,13 +4,13 @@
 
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	showGUI = true;
 
-	offscreenBuffer.allocate(width,height, GL_RGBA);
-	gui.setup("Parameters","settings.xml");
+	offscreenBuffer.allocate(width, height, GL_RGBA);
+	gui.setup("Parameters", "settings.xml");
 	globalGroup.setup("Group");
-	globalGroup.add(aperture.setup("apertrue",0.1,0,2));
+	globalGroup.add(aperture.setup("apertrue", 0.1, 0, 2));
 	globalGroup.add(focusDistance.setup("focus distance", 2, 0, 40));
 	globalGroup.add(alpha.setup("alpha", 0.03, 0, 1));
 	globalGroup.add(pointSize.setup("point size", 0.5, 0, 10));
@@ -19,16 +19,16 @@ void ofApp::setup(){
 	globalGroup.add(reset.setup("reset"));
 	gui.add(&globalGroup);
 	cameraGroup.setup("Camera");
-	cameraGroup.add(fov.setup("fov",50,0,360));
+	cameraGroup.add(fov.setup("fov", 50, 0, 360));
 	cameraGroup.add(projectionType.setup("projection type", 0, 0, 3));
-	cameraGroup.add(eye.setup("eye", ofVec3f(0,2,1.9), ofVec3f(-10), ofVec3f(10)));
-	cameraGroup.add(target.setup("target", ofVec3f(0,0,0), ofVec3f(-10), ofVec3f(10)));
-	cameraGroup.add(up.setup("up", ofVec3f(0,1,0), ofVec3f(-10), ofVec3f(10)));
+	cameraGroup.add(eye.setup("eye", ofVec3f(0, 2, 1.9), ofVec3f(-10), ofVec3f(10)));
+	cameraGroup.add(target.setup("target", ofVec3f(0, 0, 0), ofVec3f(-10), ofVec3f(10)));
+	cameraGroup.add(up.setup("up", ofVec3f(0, 1, 0), ofVec3f(-10), ofVec3f(10)));
 	cameraGroup.add(shift.setup("shift", ofVec2f(0, 0), ofVec2f(-10), ofVec2f(10)));
-	cameraGroup.add(useCameraEyeFocus.setup("camera eye focus",true));
+	cameraGroup.add(useCameraEyeFocus.setup("camera eye focus", true));
 	cameraGroup.add(focusTarget.setup("focus target", ofVec3f(0, 0), ofVec3f(-10), ofVec3f(10)));
 	cameraGroup.add(focusCenter.setup("focus center", ofVec3f(0, 0), ofVec3f(-10), ofVec3f(10)));
-	cameraGroup.add(dofType.setup("dof type", 0,0,2));
+	cameraGroup.add(dofType.setup("dof type", 0, 0, 2));
 	cameraGroup.add(dofPower.setup("dof power", 1, -10, 10));
 	cameraGroup.add(dofMin.setup("dof min", 0, 0, 4));
 	gui.add(&cameraGroup);
@@ -41,7 +41,7 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 
 }
 
@@ -49,24 +49,24 @@ void ofApp::debugDraw()
 {
 	/*ofSetupScreenPerspective(ofGetScreenWidth(), ofGetScreenHeight(),
 		75.0f, 0.01, 100);*/
-	/*ofCamera camera;
-	camera.setFov(15.0);
-	camera.setPosition(0, 2, 1.9);
-	camera.setAspectRatio(ofGetScreenWidth() / ofGetScreenHeight());
-	camera.lookAt(glm::vec3(0,0,0),glm::vec3(0,1,0));
-	camera.setNearClip(0.01);
-	camera.setFarClip(100);
-	ofBackground(0);
-	ofSetColor(255);
-	camera.begin();
+		/*ofCamera camera;
+		camera.setFov(15.0);
+		camera.setPosition(0, 2, 1.9);
+		camera.setAspectRatio(ofGetScreenWidth() / ofGetScreenHeight());
+		camera.lookAt(glm::vec3(0,0,0),glm::vec3(0,1,0));
+		camera.setNearClip(0.01);
+		camera.setFarClip(100);
+		ofBackground(0);
+		ofSetColor(255);
+		camera.begin();
 
-	vector<Line> lines = generateGeometry();
+		vector<Line> lines = generateGeometry();
 
-	for (int i = 0; i < lines.size(); i++)
-	{
-		ofDrawLine(lines[i].getP1(),lines[i].getP2());
-	}
-	camera.end();*/
+		for (int i = 0; i < lines.size(); i++)
+		{
+			ofDrawLine(lines[i].getP1(),lines[i].getP2());
+		}
+		camera.end();*/
 }
 
 void ofApp::drawLines()
@@ -84,7 +84,7 @@ void ofApp::drawLines()
 		cam = new FisheyeCamera((ofVec3f)eye, (ofVec3f)target, (ofVec3f)up, width, height, glm::radians<float>(fov));
 		break;
 	case 3:
-		cam = new ReversePerspectiveCamera((ofVec3f)eye, (ofVec3f)target, (ofVec3f)up,width,height, glm::radians<float>(fov));
+		cam = new ReversePerspectiveCamera((ofVec3f)eye, (ofVec3f)target, (ofVec3f)up, width, height, glm::radians<float>(fov));
 		break;
 	default:
 		return;
@@ -100,7 +100,7 @@ void ofApp::drawLines()
 	else
 	{
 		renderer.setFocusCenter((ofVec3f)focusCenter);
-		renderer.setFocusDirection(((ofVec3f)focusTarget-(ofVec3f)focusCenter).normalize());
+		renderer.setFocusDirection(((ofVec3f)focusTarget - (ofVec3f)focusCenter).normalize());
 	}
 	renderer.setAperture(aperture);
 	renderer.setFocusDistance(focusDistance);
@@ -139,7 +139,7 @@ void ofApp::drawLines()
 		ofVec3f point = line.sample();
 		ofVec3f p = point - cam.getPos();
 		p = ofVec3f(p.dot(cam.getRight()),p.dot(cam.getUp()),p.dot(cam.getDir()));
-		
+
 		if (p.z < 0.0)
 			continue;
 		float dist = focusDirection.dot(point-focusCenter);
@@ -164,23 +164,23 @@ void ofApp::drawLines()
 void ofApp::drawAnim(float time)
 {
 	float angle = glm::two_pi<float>()*time;
-	ofVec3f eye(sin(angle),0,cos(angle));
-	ofVec3f target(0,0,0);
-	ofVec3f up(0,1,0);
+	ofVec3f eye(sin(angle), 0, cos(angle));
+	ofVec3f target(0, 0, 0);
+	ofVec3f up(0, 1, 0);
 
 	Camera *cam;
-	cam = new PerspectiveCamera(eye,target,up,width,height,glm::radians(75.0f));
+	cam = new PerspectiveCamera(eye, target, up, width, height, glm::radians(75.0f));
 
 	float alpha = 2;
 	float aperture = 0.1;
 	float focusDistance = 3.0;
 	int dofMode = 0;
 	float dofMin = 0.0;
-	ofVec3f focusCenter = ofVec3f(0,0,-3);
-	ofVec3f focusDirection = ofVec3f(0,0,1);
+	ofVec3f focusCenter = ofVec3f(0, 0, -3);
+	ofVec3f focusDirection = ofVec3f(0, 0, 1);
 	float pointSize = 1.0f;
 	float power = 1.0;
-	ofVec2f shift = ofVec2f(0,0);
+	ofVec2f shift = ofVec2f(0, 0);
 
 	renderer.setAlpha(alpha);
 	renderer.setDofMode(dofMode);
@@ -197,9 +197,9 @@ void ofApp::drawAnim(float time)
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 
-	
+
 
 
 #ifdef DRAWANIM
@@ -212,7 +212,7 @@ void ofApp::draw(){
 		float time = (animFrame + ofRandom()) / animFrames;
 		drawAnim(time);
 	}
-	if ((frame+1)% frames)
+	if ((frame + 1) % frames)
 	{
 		saveimage(animFrame);
 		ofBackground(0, 255);
@@ -229,9 +229,9 @@ void ofApp::draw(){
 	if (frame < frames)
 	{
 		offscreenBuffer.begin();
-		if(frame==0)
+		if (frame == 0)
 		{
-			ofBackground(0,0);
+			ofBackground(0, 0);
 		}
 		for (int i = 0; i < samples; i++)
 		{
@@ -273,7 +273,7 @@ void ofApp::draw(){
 		ofDisableBlendMode();
 		offscreenBuffer.draw(correctXPos, correctYPos, correctWidth, correctHeight);
 	}
-	if(showGUI)
+	if (showGUI)
 		gui.draw();
 }
 
@@ -309,7 +309,7 @@ vector<Line> ofApp::generateGeometry()
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
 	if (key == 's')
 	{
 		ofPixels pixels;
@@ -330,52 +330,52 @@ void ofApp::keyPressed(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
+void ofApp::mouseEntered(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
+void ofApp::mouseExited(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::gotMessage(ofMessage msg) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 }
 

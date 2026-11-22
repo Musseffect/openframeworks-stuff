@@ -1,7 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
+#pragma push
+#pragma warning(disable: 4018)
 #include "ofxGui.h"
+#pragma pop
 #include "renderer.h"
 #include "camera.h"
 
@@ -15,7 +18,7 @@ class DOFCamera
 	int projection;
 	float fov;
 public:
-	DOFCamera(ofVec3f pos,ofVec3f target,ofVec3f up)
+	DOFCamera(ofVec3f pos, ofVec3f target, ofVec3f up)
 	{
 		this->pos = pos;
 		dir = (target - pos).getNormalized();
@@ -52,13 +55,13 @@ public:
 	{
 		//float fov = glm::radians(70.0);
 		float _w = tan(fov / 2) * 5;
-		return ofVec3f(vec.x*vec.z /_w, vec.y*vec.z /_w, vec.z);
+		return ofVec3f(vec.x*vec.z / _w, vec.y*vec.z / _w, vec.z);
 	}
 	ofVec3f perspective(ofVec3f vec)
 	{
 		//float fov = glm::radians(50.0);
 		float _w = tan(fov / 2);
-		return ofVec3f(vec.x/ (vec.z * _w),vec.y/ (vec.z * _w),vec.z);
+		return ofVec3f(vec.x / (vec.z * _w), vec.y / (vec.z * _w), vec.z);
 	}
 	ofVec3f ortho(ofVec3f vec)
 	{
@@ -70,94 +73,94 @@ public:
 		float theta = atan2(vec.y, vec.x);
 		float r = sqrt(vec.y*vec.y + vec.x*vec.x);
 		float phi = atan2(r, vec.z) / fov;
-		return ofVec3f(phi * cos(theta), phi * sin(theta),vec.z);
+		return ofVec3f(phi * cos(theta), phi * sin(theta), vec.z);
 	}
 	ofVec3f project(ofVec3f vec)
 	{
 		switch (projection)
 		{
-			case 0:
-				return perspective(vec);
-			case 1:
-				return ortho(vec);
-			case 2:
-				return fisheye(vec);
-			case 3:
-				return reversePerspective(vec);
+		case 0:
+			return perspective(vec);
+		case 1:
+			return ortho(vec);
+		case 2:
+			return fisheye(vec);
+		case 3:
+			return reversePerspective(vec);
 		}
 		return vec;
 	}
 	ofVec3f projectWtoL(ofVec3f vec)
 	{
-		ofVec3f local = vec-pos;
-		local = ofVec3f(local.dot(right),local.dot(up),local.dot(dir));
+		ofVec3f local = vec - pos;
+		local = ofVec3f(local.dot(right), local.dot(up), local.dot(dir));
 		return project(local);
 	}
-	float dof(float focusDistance,float distance)
+	float dof(float focusDistance, float distance)
 	{
-		return abs(focusDistance - distance)/focusDistance*distance;
+		return abs(focusDistance - distance) / focusDistance * distance;
 	}
 };
 
 
 
-class ofApp : public ofBaseApp{
-		const int width = 1080;
-		const int height = 1080;
-		ofFbo offscreenBuffer;
-		ofxPanel gui;
-		ofxGuiGroup globalGroup;
-		ofxGuiGroup cameraGroup;
-		ofxFloatSlider aperture;
-		ofxFloatSlider focusDistance;
-		ofxFloatSlider fov;
+class ofApp : public ofBaseApp {
+	const int width = 1080;
+	const int height = 1080;
+	ofFbo offscreenBuffer;
+	ofxPanel gui;
+	ofxGuiGroup globalGroup;
+	ofxGuiGroup cameraGroup;
+	ofxFloatSlider aperture;
+	ofxFloatSlider focusDistance;
+	ofxFloatSlider fov;
 
-		ofxIntSlider projectionType;
-		
-		ofxFloatSlider pointSize;
-		ofxFloatSlider alpha;
-		ofxIntSlider samples;
-		ofxIntSlider frames;
-		ofxVec3Slider eye;
-		ofxVec3Slider target;
-		ofxVec3Slider up;
-		ofxVec2Slider shift;
-		ofxButton reset;
+	ofxIntSlider projectionType;
 
-		ofxIntSlider dofType;
-		ofxFloatSlider dofMin;
-		ofxFloatSlider dofPower;
+	ofxFloatSlider pointSize;
+	ofxFloatSlider alpha;
+	ofxIntSlider samples;
+	ofxIntSlider frames;
+	ofxVec3Slider eye;
+	ofxVec3Slider target;
+	ofxVec3Slider up;
+	ofxVec2Slider shift;
+	ofxButton reset;
 
-		ofxToggle useCameraEyeFocus;
-		ofxVec3Slider focusTarget;
-		ofxVec3Slider focusCenter;
+	ofxIntSlider dofType;
+	ofxFloatSlider dofMin;
+	ofxFloatSlider dofPower;
 
-		Renderer renderer;
-		int frame;
-		bool showGUI;
-	public:
-		void setup();
-		void update();
-		void draw();
+	ofxToggle useCameraEyeFocus;
+	ofxVec3Slider focusTarget;
+	ofxVec3Slider focusCenter;
+
+	Renderer renderer;
+	int frame;
+	bool showGUI;
+public:
+	void setup();
+	void update();
+	void draw();
 
 
-		static vector<Line> generateGeometry();
+	static vector<Line> generateGeometry();
 
-		void debugDraw();
-		void drawLines();
+	void debugDraw();
+	void drawLines();
 
-		void drawAnim(float time);
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
-		
-		void exit();
+	void drawAnim(float time);
+	void keyPressed(int key);
+	void keyReleased(int key);
+	void mouseMoved(int x, int y);
+	void mouseDragged(int x, int y, int button);
+	void mousePressed(int x, int y, int button);
+	void mouseReleased(int x, int y, int button);
+	void mouseEntered(int x, int y);
+	void mouseExited(int x, int y);
+	void windowResized(int w, int h);
+	void dragEvent(ofDragInfo dragInfo);
+	void gotMessage(ofMessage msg);
+
+	void exit();
 };
