@@ -7,36 +7,16 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxBaseGui.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxButton.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxColorPicker.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxGuiGroup.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxInputField.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxLabel.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxPanel.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxSlider.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxSliderGroup.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxToggle.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxBaseGui.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxButton.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxColorPicker.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxGuiGroup.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxInputField.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxLabel.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxPanel.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxSlider.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxSliderGroup.cpp" />
+    <ClCompile Include="$(OF_ROOT)\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -56,39 +36,17 @@
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxBaseGui.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxButton.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxColorPicker.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxGui.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxGuiGroup.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxInputField.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxLabel.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxPanel.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxSlider.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxSliderGroup.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxGui\src\ofxToggle.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxBaseGui.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxButton.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxColorPicker.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxGui.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxGuiGroup.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxInputField.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxLabel.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxPanel.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxSlider.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxSliderGroup.h" />
+    <ClInclude Include="$(OF_ROOT)\addons\ofxGui\src\ofxToggle.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
