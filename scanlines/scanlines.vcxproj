@@ -50,19 +50,19 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
+    <Import Project="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
+    <Import Project="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
+    <Import Project="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
+    <Import Project="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -97,12 +97,12 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\components;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\core;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs\ofxSmartFont;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+$(OF_ROOT)\addons\ofxDatGui\src;
+$(OF_ROOT)\addons\ofxDatGui\src\components;
+$(OF_ROOT)\addons\ofxDatGui\src\core;
+$(OF_ROOT)\addons\ofxDatGui\src\libs;
+$(OF_ROOT)\addons\ofxDatGui\src\libs\ofxSmartFont;
+$(OF_ROOT)\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -123,12 +123,12 @@ E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatG
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\components;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\core;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs\ofxSmartFont;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+$(OF_ROOT)\addons\ofxDatGui\src;
+$(OF_ROOT)\addons\ofxDatGui\src\components;
+$(OF_ROOT)\addons\ofxDatGui\src\core;
+$(OF_ROOT)\addons\ofxDatGui\src\libs;
+$(OF_ROOT)\addons\ofxDatGui\src\libs\ofxSmartFont;
+$(OF_ROOT)\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -149,12 +149,12 @@ E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatG
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\components;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\core;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs\ofxSmartFont;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+$(OF_ROOT)\addons\ofxDatGui\src;
+$(OF_ROOT)\addons\ofxDatGui\src\components;
+$(OF_ROOT)\addons\ofxDatGui\src\core;
+$(OF_ROOT)\addons\ofxDatGui\src\libs;
+$(OF_ROOT)\addons\ofxDatGui\src\libs\ofxSmartFont;
+$(OF_ROOT)\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -178,12 +178,12 @@ E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatG
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\components;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\core;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\libs\ofxSmartFont;
-E:\Frameworks\of_v0.10.0_vs2017_release\of_v0.10.0_vs2017_release\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+$(OF_ROOT)\addons\ofxDatGui\src;
+$(OF_ROOT)\addons\ofxDatGui\src\components;
+$(OF_ROOT)\addons\ofxDatGui\src\core;
+$(OF_ROOT)\addons\ofxDatGui\src\libs;
+$(OF_ROOT)\addons\ofxDatGui\src\libs\ofxSmartFont;
+$(OF_ROOT)\addons\ofxDatGui\src\themes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
